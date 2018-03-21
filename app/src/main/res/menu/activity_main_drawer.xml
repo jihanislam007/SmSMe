@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_bangla_sms"
+            android:icon="@drawable/sms"
+            android:title="Bangla SMS"
+            />
+        <item
+            android:id="@+id/nav_english_sms"
+            android:icon="@drawable/sms"
+            android:title="Emglish SMS" />
+        <item
+            android:id="@+id/nav_banglish_sms"
+            android:icon="@drawable/sms"
+            android:title="Banglish SMS" />
+        <item
+            android:id="@+id/nav_favorite_sms"
+            android:icon="@drawable/hearts"
+            android:title="Favorite SMS" />
+        <item
+            android:id="@+id/nav_More_Apps"
+            android:icon="@drawable/more_app"
+            android:title="More Apps" />
+        <item
+            android:id="@+id/nav_rating"
+            android:icon="@drawable/rate"
+            android:title="Rate Us" />
+        <item
+            android:id="@+id/nav_upload"
+            android:icon="@drawable/uploading_files_button"
+            android:title="Upload SMS" />
+
+    </group>
+    <item android:title="">
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Setting" />
+    </item>
+
+</menu>

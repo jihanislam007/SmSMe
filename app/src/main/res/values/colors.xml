@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#744098</color>
+    <color name="colorPrimaryDark">#22324A</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="colorNabDrawer">#22324A</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <color name="colorScreenTop">#6A3093</color>
+    <color name="colorScreenBottom">#A044FF</color>
+
+    <color name="colorLoginButton">#6A3093</color>
+    <color name="colorfbButton">#3B5998</color>
+    <color name="colorGoogleButton">#DD4B39</color>
+
+    <color name="colortwitterButton">#55ACEE</color>
+    <color name="colortitleBar">#744098</color>
+    <color name="colorpopupButton">#5D466D</color>
+
+</resources>

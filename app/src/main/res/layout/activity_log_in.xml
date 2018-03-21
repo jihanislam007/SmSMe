@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="devsbox.jihanislam007.smstweet.Activity.LogInActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:orientation="vertical"
+        android:background="@drawable/rectangular_shape_bacground"
+        android:paddingRight="32dp"
+        android:paddingLeft="32dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.1"
+            android:gravity="center|bottom"
+            android:paddingBottom="5dp">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:src="@drawable/human_face"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".8"
+            android:gravity="center">
+
+             <TextView
+                 android:id="@+id/textTV"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Login to start using message"
+                 android:textColor="@color/colorWhite"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".8"
+            android:weightSum="7"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectangular_shape_bac_edit_text">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/user_icon"
+                        android:background="#00ffffff" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:padding="4dp">
+
+                    <EditText
+                        android:id="@+id/usernameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Username or email"
+                        android:paddingLeft="8dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:background="#00ffffff"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".8"
+            android:weightSum="7"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectangular_shape_bac_edit_text">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/pass_icon" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:padding="4dp">
+
+                    <EditText
+                        android:id="@+id/passwordEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Password"
+                        android:paddingLeft="8dp"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:background="@color/colorScreenBottom"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".4"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/forgotPasswordTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot password ?"
+                android:textColor="@color/colorWhite"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".8"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:id="@+id/logInButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log In"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/rectangular_shape_button"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".8"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:id="@+id/SignupButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Sign UP"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/rectangular_shape_button"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
