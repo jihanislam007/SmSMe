@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity
         categoryList.add(c);
 
 
-        CategoryList d = new CategoryList("Birthday SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
+        CategoryList d = new CategoryList("Birthday SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/Birthday%20SMS.png");
         categoryList.add(d);
 
         CategoryList e = new CategoryList("New Year SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
