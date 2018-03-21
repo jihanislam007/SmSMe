@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="devsbox.jihanislam007.smstweet.Activity.CategoryViewActivity">
+    tools:context="devsbox.jihanislam007.smstweet.Activity.CategorySmsViewActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:paddingRight="8dp">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/Category"
+            android:id="@+id/CategorySmsView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="4dp">

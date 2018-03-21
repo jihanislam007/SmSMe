@@ -1,12 +1,15 @@
 package devsbox.jihanislam007.smstweet.Activity;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsCatagorySelectorActivity;
 import devsbox.jihanislam007.smstweet.R;
 
 public class LogInActivity extends AppCompatActivity {
@@ -48,5 +51,21 @@ public class LogInActivity extends AppCompatActivity {
         signUp.setTypeface(roboto);
 
         ///////////////////// xx //////////////////////
+
+        logIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(getApplicationContext(),UploadSmsCatagorySelectorActivity.class);
+                startActivity(in);
+            }
+        });
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(getApplicationContext(),SignUpActivity.class);
+                startActivity(in);
+            }
+        });
     }
 }

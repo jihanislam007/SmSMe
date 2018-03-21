@@ -1,6 +1,7 @@
 package devsbox.jihanislam007.smstweet.Adaptor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsActivity;
 import devsbox.jihanislam007.smstweet.ModelClass.CategoryList;
 import devsbox.jihanislam007.smstweet.R;
 
@@ -21,24 +23,24 @@ import devsbox.jihanislam007.smstweet.R;
  * Created by muhmmod on 3/21/18.
  */
 
-public class CategoryViewAdapter extends RecyclerView.Adapter<CategoryViewAdapter.myViewHolder>{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.myViewHolder>{
 
     Context mcontext;
     ArrayList<CategoryList> categoryList;
 
-    public CategoryViewAdapter(Context context, ArrayList<CategoryList> categoryList){
+    public CategoryAdapter(Context context, ArrayList<CategoryList> categoryList){
         this.mcontext = context;
         this.categoryList = categoryList;
     }
 
     @Override
-    public CategoryViewAdapter.myViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CategoryAdapter.myViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.raw_category_view_layout_list,parent,false);
         return new myViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CategoryViewAdapter.myViewHolder holder, int position) {
+    public void onBindViewHolder(CategoryAdapter.myViewHolder holder, int position) {
 
         /*Glide.with(mcontext)
                 .load(categoryList.get(position).getLayoutImageURL())
@@ -55,7 +57,7 @@ public class CategoryViewAdapter extends RecyclerView.Adapter<CategoryViewAdapte
         return categoryList.size();
     }
 
-    public class myViewHolder extends RecyclerView.ViewHolder {
+    public class myViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         LinearLayout backgroundLayout;
         TextView catagoryNameTV;
@@ -76,6 +78,13 @@ public class CategoryViewAdapter extends RecyclerView.Adapter<CategoryViewAdapte
             catagoryNameTV.setTypeface(roboto);
 
             ///////////////////// xx //////////////////////
+
+            backgroundImageView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            view.getContext().startActivity(new Intent(mcontext, UploadSmsActivity.class));
         }
     }
 }

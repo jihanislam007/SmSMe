@@ -15,16 +15,15 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
-import devsbox.jihanislam007.smstweet.Adaptor.CategoryViewAdapter;
+import devsbox.jihanislam007.smstweet.Adaptor.CategoryAdapter;
 import devsbox.jihanislam007.smstweet.ModelClass.CategoryList;
 import devsbox.jihanislam007.smstweet.R;
-import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsCatagorySelectorActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView recyclerView;
-    CategoryViewAdapter categoryViewAdapter;
+    CategoryAdapter categoryAdapter;
     ArrayList<CategoryList> categoryList = new ArrayList<>();
 
     @Override
@@ -49,8 +48,8 @@ public class MainActivity extends AppCompatActivity
         //////////////recyclerView load////////////////////////////
         recyclerView = findViewById(R.id.categoryRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        categoryViewAdapter = new CategoryViewAdapter(this,categoryList);
-        recyclerView.setAdapter(categoryViewAdapter);
+        categoryAdapter = new CategoryAdapter(this,categoryList);
+        recyclerView.setAdapter(categoryAdapter);
 
         testingLoadData();
 
@@ -106,11 +105,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_bangla_sms) {
             // Handle the camera action
-            Intent in = new Intent(this,LogInActivity.class);
+            Intent in = new Intent(this,MainActivity.class);
             startActivity(in);
 
         } else if (id == R.id.nav_english_sms) {
-            Intent in = new Intent(this,SignUpActivity.class);
+            Intent in = new Intent(this,MainActivity.class);
             startActivity(in);
 
         } else if (id == R.id.nav_banglish_sms) {
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(in);
 
         }else if (id == R.id.nav_upload) {
-            Intent in = new Intent(this,UploadSmsCatagorySelectorActivity.class);
+            Intent in = new Intent(this,LogInActivity.class);
             startActivity(in);
 
         }else if (id == R.id.nav_setting) {
@@ -146,30 +145,30 @@ public class MainActivity extends AppCompatActivity
 
     public void testingLoadData(){
 
-        CategoryList a = new CategoryList("LOVE SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
+        CategoryList a = new CategoryList("LOVE SMS","");
         categoryList.add(a);
 
-        CategoryList b = new CategoryList("Friendship SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
+        CategoryList b = new CategoryList("Friendship SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_friendship.png");
         categoryList.add(b);
 
 
-        CategoryList c = new CategoryList("Funny SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
+        CategoryList c = new CategoryList("Funny SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_funny.png");
         categoryList.add(c);
 
 
-        CategoryList d = new CategoryList("Birthday SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/Birthday%20SMS.png");
+        CategoryList d = new CategoryList("Birthday SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_birthday.png");
         categoryList.add(d);
 
-        CategoryList e = new CategoryList("New Year SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
+        CategoryList e = new CategoryList("New Year SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_new_year.png");
         categoryList.add(e);
 
-        CategoryList f = new CategoryList("Eid SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
+        CategoryList f = new CategoryList("Eid SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_eid.png");
         categoryList.add(f);
 
-        CategoryList g = new CategoryList("AM SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
+        CategoryList g = new CategoryList("Morning SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_morning.png");
         categoryList.add(g);
 
-        CategoryList h = new CategoryList("PM SMS","https://github.com/jihanislam007/Ruchira/blob/master/app/src/main/res/drawable/profilecurve.png");
+        CategoryList h = new CategoryList("Night SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_night.png");
         categoryList.add(h);
     }
 }

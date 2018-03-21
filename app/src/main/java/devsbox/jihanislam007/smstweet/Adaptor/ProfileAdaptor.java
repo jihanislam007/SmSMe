@@ -1,6 +1,7 @@
 package devsbox.jihanislam007.smstweet.Adaptor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import devsbox.jihanislam007.smstweet.Activity.SmsFullViewActivity;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 
@@ -76,6 +78,8 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
         @Override
         public void onClick(View view) {
             //ToDo : go to sms viewer page//
+            view.getContext().startActivity(new Intent(mcontext, SmsFullViewActivity.class));
+
         }
     }
 }

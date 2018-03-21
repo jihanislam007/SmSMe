@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ import devsbox.jihanislam007.smstweet.Adaptor.ProfileAdaptor;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 
-public class FavoriteSMSActivity extends AppCompatActivity {
+public class CategorySmsViewActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ProfileAdaptor profileAdaptor;
@@ -21,9 +20,9 @@ public class FavoriteSMSActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_sms);
+        setContentView(R.layout.activity_catagory_view);
 
-        recyclerView = findViewById(R.id.FavouriteSMS);
+        recyclerView = findViewById(R.id.CategorySmsView);
 
         //loading recyclerView//
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,5 +55,4 @@ public class FavoriteSMSActivity extends AppCompatActivity {
         ProfileData e1 = new ProfileData("SMS Five", "this is first sms. hope we have make fun from this app");
         profileData.add(e1);
     }
-
 }
