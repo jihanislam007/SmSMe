@@ -1,5 +1,6 @@
 package devsbox.jihanislam007.smstweet.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,12 +13,25 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.HttpResponse;
 import devsbox.jihanislam007.smstweet.Adaptor.CategoryAdapter;
+import devsbox.jihanislam007.smstweet.DB.OfflineInfo;
 import devsbox.jihanislam007.smstweet.ModelClass.CategoryList;
 import devsbox.jihanislam007.smstweet.R;
+import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,24 +40,16 @@ public class MainActivity extends AppCompatActivity
     CategoryAdapter categoryAdapter;
     ArrayList<CategoryList> categoryList = new ArrayList<>();
 
+    OfflineInfo offlineInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        offlineInfo=new OfflineInfo(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-    //    getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         //////////////recyclerView load////////////////////////////
         recyclerView = findViewById(R.id.categoryRecyclerView);
@@ -51,7 +57,8 @@ public class MainActivity extends AppCompatActivity
         categoryAdapter = new CategoryAdapter(this,categoryList);
         recyclerView.setAdapter(categoryAdapter);
 
-        testingLoadData();
+    //    testingLoadData();
+        CategoryDataserver("bangla");
 
         //////////////recyclerView load////////////////////////////
 
@@ -104,17 +111,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_bangla_sms) {
-            // Handle the camera action
-            Intent in = new Intent(this,MainActivity.class);
-            startActivity(in);
+
+            CategoryDataserver("bangla");
 
         } else if (id == R.id.nav_english_sms) {
-            Intent in = new Intent(this,MainActivity.class);
-            startActivity(in);
+
+            CategoryDataserver("english");
 
         } else if (id == R.id.nav_banglish_sms) {
-            Intent in = new Intent(this,MainActivity.class);
-            startActivity(in);
+            CategoryDataserver("banglish");
 
         } else if (id == R.id.nav_favorite_sms) {
             Intent in = new Intent(this,FavoriteSMSActivity.class);
@@ -143,7 +148,71 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void testingLoadData(){
+    private void CategoryDataserver(String category) {
+
+        String tag_string_req = "req_login";
+        ProgressDialog progressDialog = null;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
+        final ProgressDialog finalProgressDialog = progressDialog;
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization","Bearer "+offlineInfo.getUserInfo().token);
+
+        RequestParams params=new RequestParams();
+
+        final ProgressDialog finalProgressDialog1 = progressDialog;
+
+        client.get(ServerInfo.BASE_ADDRESS+"SubCategoryList?categoryName="+category,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+                categoryList.clear();
+                categoryAdapter.notifyDataSetChanged();
+                for(int i=0;i<response.length();i++){
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(i);
+
+
+                        String catagory = jsonObject.getString("category");
+                        String subCategoryName = jsonObject.getString("subCategoryName");
+
+                        int subCategoryId = jsonObject.getInt("subCategoryId");
+                        String photo = jsonObject.getString("photo");
+
+                        CategoryList category_data = new CategoryList(subCategoryName,photo,subCategoryId);
+
+                        categoryList.add(category_data);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }categoryAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+                finalProgressDialog1.dismiss();
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(MainActivity.this, "There is no data", Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+
+    }
+
+    /*public void testingLoadData(){
 
         CategoryList a = new CategoryList("LOVE SMS","");
         categoryList.add(a);
@@ -170,5 +239,5 @@ public class MainActivity extends AppCompatActivity
 
         CategoryList h = new CategoryList("Night SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_night.png");
         categoryList.add(h);
-    }
+    }*/
 }

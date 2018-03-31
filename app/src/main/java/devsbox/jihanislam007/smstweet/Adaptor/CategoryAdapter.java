@@ -12,12 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
 import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsActivity;
 import devsbox.jihanislam007.smstweet.ModelClass.CategoryList;
 import devsbox.jihanislam007.smstweet.R;
+import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
 
 /**
  * Created by muhmmod on 3/21/18.
@@ -40,16 +42,25 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.myView
     }
 
     @Override
-    public void onBindViewHolder(CategoryAdapter.myViewHolder holder, int position) {
+    public void onBindViewHolder(CategoryAdapter.myViewHolder holder, final int position) {
 
         /*Glide.with(mcontext)
                 .load(categoryList.get(position).getLayoutImageURL())
                 .centerCrop()
                 .placeholder(R.drawable.demo)
                 .into(backgroundLayout);*/
-        Glide.with(mcontext).load(categoryList.get(position).getLayoutImageURL()).into(holder.backgroundImageView);
-
+        //Glide.with(mcontext).load(categoryList.get(position).getLayoutImageURL()).into(holder.backgroundImageView);
+        Glide.with(mcontext)
+                .load(ServerInfo.MEDIA_ADDRESS+categoryList.get(position).getLayoutImageURL())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.backgroundImageView);
         holder.catagoryNameTV.setText(categoryList.get(position).getCategoryName());
+        holder.backgroundImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.getContext().startActivity(new Intent(mcontext, UploadSmsActivity.class).putExtra("id",categoryList.get(position).categoryId));
+            }
+        });
     }
 
     @Override
@@ -79,12 +90,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.myView
 
             ///////////////////// xx //////////////////////
 
-            backgroundImageView.setOnClickListener(this);
+            //backgroundImageView.setOnClickListener(this);
+
+
         }
 
         @Override
         public void onClick(View view) {
-            view.getContext().startActivity(new Intent(mcontext, UploadSmsActivity.class));
+
         }
     }
 }

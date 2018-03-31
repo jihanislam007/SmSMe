@@ -36,7 +36,7 @@
             android:gravity="center">
 
              <TextView
-                 android:id="@+id/textTV"
+                 android:id="@+id/TextView_one"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:text="Login to start using message"

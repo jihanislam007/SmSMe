@@ -3,12 +3,17 @@ package devsbox.jihanislam007.smstweet.DB;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
+import devsbox.jihanislam007.smstweet.ModelClass.AppUser;
+
 /**
- * Created by muhmmod on 3/21/18.
+ * Created by muhammod on 3/21/18.
  */
 
 public class OfflineInfo {SharedPreferences sharedpreferences;
     Context context;
+
     public OfflineInfo(Context context){
         if(context==null){
             System.out.println("Context is null....");
@@ -23,11 +28,11 @@ public class OfflineInfo {SharedPreferences sharedpreferences;
         editor.commit();
         System.out.println("Successfully save user info....");
     }
-    /*public AppUser getUserInfo(){
+    public AppUser getUserInfo(){
         Gson gson=new Gson();
         AppUser appUser=gson.fromJson(sharedpreferences.getString("userInfo",""),AppUser.class);
         return appUser;
-    }*/
+    }
 
 
 

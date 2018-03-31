@@ -8,13 +8,12 @@ public class CategoryList {
 
     String categoryName;
     String layoutImageURL;
+    public int categoryId;
 
-    public CategoryList() {
-    }
-
-    public CategoryList(String categoryName, String layoutImageURL) {
+    public CategoryList(String categoryName, String layoutImageURL, int categoryId) {
         this.categoryName = categoryName;
         this.layoutImageURL = layoutImageURL;
+        this.categoryId = categoryId;
     }
 
     public String getCategoryName() {
