@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
         final ProgressDialog finalProgressDialog = progressDialog;
 
         AsyncHttpClient client=new AsyncHttpClient();
-        client.addHeader("Authorization","Bearer "+offlineInfo.getUserInfo().token);
+        //client.addHeader("Authorization","Bearer "+offlineInfo.getUserInfo().token);
 
         RequestParams params=new RequestParams();
 
