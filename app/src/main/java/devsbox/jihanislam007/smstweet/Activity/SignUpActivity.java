@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -19,6 +23,8 @@ import com.loopj.android.http.ResponseHandlerInterface;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Arrays;
 
 import cz.msebera.android.httpclient.HttpResponse;
 import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsCatagorySelectorActivity;
@@ -58,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
         confirmPassEditText = findViewById(R.id.confirmPasswordEditText);
 
         signUp = findViewById(R.id.logInButton);
-        fbButton = findViewById(R.id.facebookButton);
+        //fbButton = findViewById(R.id.facebookButton);
         googleButton = findViewById(R.id.googleButton);
         tweeterButton = findViewById(R.id.tweeterButton);
 
@@ -93,6 +99,33 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+        /*private static final String EMAIL = "email";
+
+        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList(EMAIL));
+        // If you are using in a fragment, call loginButton.setFragment(this);
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });*/
+
     }
 
     private void SignUp_server(final String email, String fullName, final String password) {
