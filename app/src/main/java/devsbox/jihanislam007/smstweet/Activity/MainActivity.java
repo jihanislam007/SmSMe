@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.HttpResponse;
 import devsbox.jihanislam007.smstweet.Adaptor.CategoryAdapter;
+import devsbox.jihanislam007.smstweet.Adaptor.SubCatSMS_viewAdapter;
 import devsbox.jihanislam007.smstweet.DB.OfflineInfo;
 import devsbox.jihanislam007.smstweet.ModelClass.CategoryList;
 import devsbox.jihanislam007.smstweet.R;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView recyclerView;
-    CategoryAdapter categoryAdapter;
+    SubCatSMS_viewAdapter SubCatSMS_viewAdapter;
     ArrayList<CategoryList> categoryList = new ArrayList<>();
 
     OfflineInfo offlineInfo;
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity
         //////////////recyclerView load////////////////////////////
         recyclerView = findViewById(R.id.categoryRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        categoryAdapter = new CategoryAdapter(this,categoryList);
-        recyclerView.setAdapter(categoryAdapter);
+        SubCatSMS_viewAdapter = new SubCatSMS_viewAdapter(this,categoryList);
+        recyclerView.setAdapter(SubCatSMS_viewAdapter);
 
     //    testingLoadData();
         CategoryDataserver("bangla");
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                 categoryList.clear();
-                categoryAdapter.notifyDataSetChanged();
+                SubCatSMS_viewAdapter.notifyDataSetChanged();
                 for(int i=0;i<response.length();i++){
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }categoryAdapter.notifyDataSetChanged();
+                }SubCatSMS_viewAdapter.notifyDataSetChanged();
 
 
             }

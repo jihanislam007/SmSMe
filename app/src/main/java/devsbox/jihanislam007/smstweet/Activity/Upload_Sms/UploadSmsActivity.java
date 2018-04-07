@@ -1,10 +1,13 @@
 package devsbox.jihanislam007.smstweet.Activity.Upload_Sms;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.HttpResponse;
 import devsbox.jihanislam007.smstweet.Activity.MainActivity;
+import devsbox.jihanislam007.smstweet.Activity.ProfileActivity;
 import devsbox.jihanislam007.smstweet.DB.OfflineInfo;
 import devsbox.jihanislam007.smstweet.ModelClass.CategoryList;
 import devsbox.jihanislam007.smstweet.R;
@@ -30,9 +34,12 @@ public class UploadSmsActivity extends AppCompatActivity {
     EditText smsTitle,
             smsBody;
 
-    Button uplodNow;
+    Button uplodNow ,
+            DoneButton;
     String selectedId="";
     OfflineInfo offlineInfo;
+
+    Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +109,9 @@ public class UploadSmsActivity extends AppCompatActivity {
 
                         Toast.makeText(UploadSmsActivity.this,"Upload successfully",Toast.LENGTH_LONG).show();
 
+                        pop();
+                        mDialog.show();
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -120,6 +130,25 @@ public class UploadSmsActivity extends AppCompatActivity {
             }
 
         });
+
+    }
+
+    public void pop() {
+
+        mDialog = new Dialog(UploadSmsActivity.this);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialog.setContentView(R.layout.popup_layout);
+
+     //   mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+
+        DoneButton = mDialog.findViewById(R.id.DoneButton);
+        /*DoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });*/
 
 
     }

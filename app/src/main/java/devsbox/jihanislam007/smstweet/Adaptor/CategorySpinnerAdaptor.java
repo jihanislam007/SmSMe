@@ -71,7 +71,7 @@ public class CategorySpinnerAdaptor extends ArrayAdapter<CategoryName> {
         label.setText(getItem(position).getCategory());
         label.setPadding(10, 15, 0, 15);
 
-        label.setTextColor(Color.BLACK);
+        label.setTextColor(Color.WHITE);
 
         ((TextView) row).setGravity(Gravity.CENTER);
         return row;

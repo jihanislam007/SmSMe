@@ -38,7 +38,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="8dp">
+                            android:padding="16dp">
 
                             <ImageView
                                 android:id="@+id/backImageView"
@@ -143,8 +143,8 @@
                 android:layout_weight="1.5"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:paddingTop="11dp"
-                android:paddingBottom="32dp">
+                android:paddingTop="0dp"
+                android:paddingBottom="24dp">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"

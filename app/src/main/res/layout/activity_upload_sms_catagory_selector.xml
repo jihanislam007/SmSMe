@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="8dp">
+                android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/backImageView"
@@ -104,14 +104,16 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangular_shape_button">
 
                         <Spinner
                             android:id="@+id/categorySpinner"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/rectangular_shape_button"
-                            android:textColor="@android:color/white"></Spinner>
+                            android:popupBackground="@drawable/rectangular_shape_button"
+                            android:textColor="@color/colorWhite"
+                            android:gravity="left"></Spinner>
 
                     </LinearLayout>
 
