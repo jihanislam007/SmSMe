@@ -261,9 +261,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rectangular_shape_facebook">
+                android:background="@drawable/rectangular_shape_facebook"
+                android:gravity="center_horizontal|center_vertical">
 
-                <LinearLayout
+               <!-- <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -300,7 +301,13 @@
                         android:textColorHint="@color/colorWhite"
                         android:background="#00ffffff"/>
 
-                </LinearLayout>
+                </LinearLayout>-->
+
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
