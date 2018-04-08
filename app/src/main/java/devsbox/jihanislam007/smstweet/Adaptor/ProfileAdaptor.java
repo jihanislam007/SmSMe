@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import devsbox.jihanislam007.smstweet.Activity.SmsFullViewActivity;
+import devsbox.jihanislam007.smstweet.Animation.AnimationUtil;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 
@@ -23,6 +24,8 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
 
     Context mcontext;
     ArrayList<ProfileData> profileData;
+
+    private int previousPosition = 0;
 
     public ProfileAdaptor(Context context, ArrayList<ProfileData> profileData) {
         this.mcontext = context;
@@ -41,6 +44,49 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
 
         holder.SmsTitleTextView.setText(profileData.get(position).getSmsTitle());
         holder.SmsBodyTextView.setText(profileData.get(position).getSmsBody());
+
+        ////////////////for animation start//////////////////////////
+        if(position > previousPosition){ // We are scrolling DOWN
+
+            AnimationUtil.animate(holder, true);
+
+        }else{ // We are scrolling UP
+
+            AnimationUtil.animate(holder, false);
+
+
+        }
+
+        previousPosition = position;
+
+
+        final int currentPosition = position;
+        final ProfileData infoData = profileData.get(position);
+
+        /*holder.SmsTitleTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            //    Toast.makeText(context, "OnClick Called at position " + position, Toast.LENGTH_SHORT).show();
+                addItem(currentPosition, profileData);
+            }
+        });
+
+        holder.SmsBodyTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+             //   Toast.makeText(context, "OnLongClick Called at position " + position, Toast.LENGTH_SHORT).show();
+
+                removeItem(infoData);
+
+                return true;
+            }
+
+
+        });*/
+
+        ////////////////for animation finish//////////////////////////
     }
 
     @Override

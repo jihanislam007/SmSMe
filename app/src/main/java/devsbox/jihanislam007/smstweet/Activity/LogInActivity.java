@@ -129,7 +129,9 @@ public class LogInActivity extends AppCompatActivity {
                 try {
                     if(response.getBoolean("result")){
                         Toast.makeText(LogInActivity.this,"Login successful", Toast.LENGTH_LONG).show();
-                        startActivity(intent);}
+                        startActivity(intent);
+                    finish();
+                    }
                         else {Toast.makeText(LogInActivity.this, "User name or password invalid....", Toast.LENGTH_SHORT).show();
 
                     }
