@@ -1,6 +1,7 @@
 package devsbox.jihanislam007.smstweet.Activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -14,12 +15,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.HttpResponse;
 import devsbox.jihanislam007.smstweet.Adaptor.ProfileAdaptor;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
+import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -78,7 +91,9 @@ public class ProfileActivity extends AppCompatActivity {
         profileAdaptor = new ProfileAdaptor(this, profileData);
         userSMSRecyclerView.setAdapter(profileAdaptor);
 
-        testLoadData();
+        ProfileDataFromServer();
+
+
     }
 
     public void pop() {
@@ -93,6 +108,60 @@ public class ProfileActivity extends AppCompatActivity {
         SettingPasswordTV = mDialog.findViewById(R.id.SettingPasswordTV);
         SettingConfirmePasswordTV = mDialog.findViewById(R.id.SettingConfirmePasswordTV);
         SettingDoneButton = mDialog.findViewById(R.id.SettingDoneButton);
+
+
+    }
+
+    private void ProfileDataFromServer() {
+        String tag_string_req = "req_login";
+        ProgressDialog progressDialog = null;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+        final ProgressDialog finalProgressDialog = progressDialog;
+
+        /*************Must write*************************************/
+        AsyncHttpClient client=new AsyncHttpClient();
+
+        final ProgressDialog finalProgressDialog1 = progressDialog;
+        RequestParams params=new RequestParams();
+
+        client.get(ServerInfo.BASE_ADDRESS+"UserUploadedList",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+
+                for(int i=0; i<=response.length();i++){
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(i);
+
+                        profileData.add(new ProfileData(jsonObject.getString("title"),jsonObject.getString("text")));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    //   String
+
+                }
+                profileAdaptor.notifyDataSetChanged();
+            }
+
+            /*****************Must write*****************************/
+            @Override
+            public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+                finalProgressDialog1.dismiss();
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(ProfileActivity.this, "Check your connection", Toast.LENGTH_SHORT).show();
+
+            }
+            /***************************************/
+        });
 
 
     }

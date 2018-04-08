@@ -161,7 +161,8 @@
                         android:layout_height="match_parent"
                         android:text="@string/upload_now"
                         android:background="@drawable/rectangular_shape_button"
-                        android:minHeight="50dp"/>
+                        android:minHeight="50dp"
+                        android:textColor="@color/colorWhite"/>
 
                 </android.support.v7.widget.CardView>
 
