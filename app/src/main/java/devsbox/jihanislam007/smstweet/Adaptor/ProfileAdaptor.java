@@ -7,11 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import devsbox.jihanislam007.smstweet.Activity.SmsFullViewActivity;
+import devsbox.jihanislam007.smstweet.Interface.GoFullScreen;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 
@@ -37,10 +41,18 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ProfileAdaptor.ViewHolder holder, int position) {
+    public void onBindViewHolder(ProfileAdaptor.ViewHolder holder, final int position) {
 
         holder.SmsTitleTextView.setText(profileData.get(position).getSmsTitle());
         holder.SmsBodyTextView.setText(profileData.get(position).getSmsBody());
+
+
+        holder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((GoFullScreen)(mcontext)).GoFullScreen(position);
+            }
+        });
     }
 
     @Override
@@ -49,15 +61,17 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView SmsTitleTextView,
                 SmsBodyTextView;
+        LinearLayout container;
 
         public ViewHolder(View itemView) {
             super(itemView);
             SmsTitleTextView = itemView.findViewById(R.id.SmsTitleTextView);
             SmsBodyTextView = itemView.findViewById(R.id.SmsBodyTextView);
+            container = itemView.findViewById(R.id.container);
 
             /////////// Font path ////////////////////
 
@@ -69,17 +83,9 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
             SmsBodyTextView.setTypeface(roboto);
 
 
-            ///////////////////// xx //////////////////////
-
-            SmsBodyTextView.setOnClickListener(this);
         }
 
 
-        @Override
-        public void onClick(View view) {
-            //ToDo : go to sms viewer page//
-            view.getContext().startActivity(new Intent(mcontext, SmsFullViewActivity.class));
 
-        }
     }
 }
