@@ -123,6 +123,7 @@ public class LogInActivity extends AppCompatActivity {
         client.post(ServerInfo.BASE_ADDRESS+"Token",params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                System.out.println(response);
                 offlineInfo.setUserInfo(response.toString());
 
                 Intent intent=new Intent(LogInActivity.this,UploadSmsCatagorySelectorActivity.class);
@@ -147,6 +148,8 @@ public class LogInActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                System.out.println(statusCode);
+                System.out.println(responseString);
                 Toast.makeText(LogInActivity.this, "User name or password invalid....", Toast.LENGTH_SHORT).show();
 
             }

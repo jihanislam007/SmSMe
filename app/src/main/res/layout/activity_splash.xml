@@ -25,9 +25,9 @@
             android:padding="12dp">
 
             <ImageView
+                android:id="@+id/backgroundImageView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/icon"/>
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
