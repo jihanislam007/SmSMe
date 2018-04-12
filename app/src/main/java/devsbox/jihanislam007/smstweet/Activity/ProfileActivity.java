@@ -363,7 +363,6 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //  System.out.println(response);
                 try {
 
                     int smsCount =response.getInt("smsCount");
