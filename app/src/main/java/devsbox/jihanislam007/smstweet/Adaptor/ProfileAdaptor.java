@@ -49,6 +49,7 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
         holder.SmsBodyTextView.setText(profileData.get(position).getSmsBody());
 
 
+
      /*   holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

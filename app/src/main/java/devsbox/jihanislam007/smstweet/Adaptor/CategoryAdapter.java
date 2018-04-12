@@ -54,6 +54,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.myView
                 .load(ServerInfo.MEDIA_ADDRESS+categoryList.get(position).getLayoutImageURL())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.backgroundImageView);
+
         holder.catagoryNameTV.setText(categoryList.get(position).getCategoryName());
         holder.backgroundImageView.setOnClickListener(new View.OnClickListener() {
             @Override

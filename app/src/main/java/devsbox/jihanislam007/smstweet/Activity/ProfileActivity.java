@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -51,21 +53,26 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsActivity;
 import devsbox.jihanislam007.smstweet.Adaptor.ProfileAdaptor;
 import devsbox.jihanislam007.smstweet.DB.OfflineInfo;
+import devsbox.jihanislam007.smstweet.Interface.GoFullScreen;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
 
     TextView userName,
             textview_one,
             uploadSmsCount;
 
     String selectedId="";
+    int currentPage=0;
+    int selectId=0;
 
     ImageView back,
+            coverImageView,
             settingPopUp;
-    CircleImageView SettingprofileImage;
+    CircleImageView profile_image,
+                    SettingprofileImage;
     Dialog mDialog;
 
     EditText SettingUserNameTV,
@@ -90,6 +97,9 @@ public class ProfileActivity extends AppCompatActivity {
         textview_one = findViewById(R.id.textview_one);
         uploadSmsCount = findViewById(R.id.SMSCountTV);
         settingPopUp = findViewById(R.id.settingPopUp);
+        profile_image = findViewById(R.id.profile_image);
+        coverImageView = findViewById(R.id.coverImageView);
+
 
         userSMSRecyclerView = findViewById(R.id.userSMSRecyclerView);
 
@@ -122,11 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         ProfileDataServer();
 
-
-
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -304,26 +310,21 @@ public class ProfileActivity extends AppCompatActivity {
         client.get(ServerInfo.BASE_ADDRESS+"UserUploadedList",params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
-
-                for(int i=0;i<response.length();i++){
+            //    currentPage++;
+             //   isLoading=false;
+                for(int i=0; i<response.length();i++){
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
-                        //       profileData.add(new ProfileData(jsonObject.getString("title"),jsonObject.getString("text")));
-
-                        String user_name =jsonObject.getString("uploadedUserName");
-                        userName.setText(user_name);
-
-                        int smsCount =jsonObject.getInt("count");
-                        uploadSmsCount.setText(Integer.toString(smsCount));
 
                         profileData.add(new ProfileData(jsonObject.getInt("smsId")+"",jsonObject.getString("title"),jsonObject.getString("text")));
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
 
+
+                }
+                profileAdaptor.notifyDataSetChanged();
             }
 
             @Override
@@ -344,7 +345,34 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
 
-                System.out.println(response);
+                try {
+                    JSONObject jsonObject = response.getJSONObject("user");
+
+                    String user_name =jsonObject.getString("fullName");
+                    userName.setText(user_name);
+
+                    /*Glide
+                            .with(ProfileActivity.this)
+                            .load(ServerInfo.MEDIA_ADDRESS+"userId="+profileData.get(response).getLayoutImageURL())
+                            .into(profile_image);*/
+                   /* Glide
+                            .with(ProfileActivity.this)
+                            .load("profilePhoto")
+                            .into(coverImageView);*/
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //  System.out.println(response);
+                try {
+
+                    int smsCount =response.getInt("smsCount");
+                    uploadSmsCount.setText(Integer.toString(smsCount));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
             }
 
@@ -365,5 +393,17 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void profileBackIV(View view) {
         finish();
+    }
+
+    @Override
+    public void GoFullScreen(int position) {
+        Gson gson=new Gson();
+        String data=gson.toJson(profileData);
+        Intent intent=new Intent(this,SmsFullViewActivity.class);
+        intent.putExtra("selectedIndex",position);
+        intent.putExtra("data",data);
+        intent.putExtra("selectedId",selectId);
+        intent.putExtra("currentPage",currentPage);
+        startActivity(intent);
     }
 }
