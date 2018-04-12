@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -73,28 +74,6 @@ public class CategorySmsViewActivity extends AppCompatActivity implements GoFull
 
     }
 
-    /*public void testLoadData() {
-
-        ProfileData a1 = new ProfileData("SMS one", "this is first sms. hope we have make fun from this app");
-        profileData.add(a1);
-
-        ProfileData b1 = new ProfileData("SMS two", "this is first sms. hope we have make fun from this app");
-        profileData.add(b1);
-
-        ProfileData c1 = new ProfileData("SMS Three", "this is first sms. hope we have make fun from this app");
-        profileData.add(c1);
-
-        ProfileData d1 = new ProfileData("SMS Four", "this is first sms. hope we have make fun from this app." +
-                "this is first sms. hope we have make fun from this app.this is first sms. " +
-                "hope we have make fun from this app.this is first sms. hope we have make fun from this app." +
-                "this is first sms. hope we have make fun from this app.this is first sms. " +
-                "hope we have make fun from this app");
-        profileData.add(d1);
-
-        ProfileData e1 = new ProfileData("SMS Five", "this is first sms. hope we have make fun from this app");
-        profileData.add(e1);
-    }*/
-
     private void CategorySmsViewDataFromServer() {
 
         if(isLoading)
@@ -129,7 +108,7 @@ public class CategorySmsViewActivity extends AppCompatActivity implements GoFull
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        profileData.add(new ProfileData(jsonObject.getString("title"),jsonObject.getString("text")));
+                        profileData.add(new ProfileData(jsonObject.getInt("smsId")+"",jsonObject.getString("title"),jsonObject.getString("text")));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -169,5 +148,9 @@ public class CategorySmsViewActivity extends AppCompatActivity implements GoFull
         intent.putExtra("selectedId",selectedId);
         intent.putExtra("currentPage",currentPage);
         startActivity(intent);
+    }
+
+    public void categoryViewBackIV(View view) {
+        finish();
     }
 }

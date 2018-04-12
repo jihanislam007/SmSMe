@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash"
+    android:background="@drawable/rectangular_shape_bacground"
     tools:context="devsbox.jihanislam007.smstweet.Activity.SplashActivity">
 
     <LinearLayout
@@ -16,40 +16,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3.6"></LinearLayout>
+            android:layout_weight="2.6"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2.2">
+            android:layout_weight="3.2"
+            android:padding="12dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/logo"/>
+                android:src="@drawable/icon"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".8"
+            android:layout_weight="2.8"
             android:gravity="center"
             android:paddingLeft="110dp"
             android:paddingRight="110dp">
 
 
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/MyProgressBarTwo"
+                android:theme="@style/MyProgressBarTwo"
+                android:progress="30"
+                android:secondaryProgress="60"/>
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3.4"></LinearLayout>
+            android:layout_weight="1.4"></LinearLayout>
 
     </LinearLayout>
 

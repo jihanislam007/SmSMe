@@ -6,15 +6,25 @@ package devsbox.jihanislam007.smstweet.ModelClass;
 
 public class ProfileData {
 
+    String smsId;
     String smsTitle;
     String smsBody;
 
     public ProfileData() {
     }
 
-    public ProfileData(String smsTitle, String smsBody) {
+    public ProfileData(String smsId, String smsTitle, String smsBody) {
+        this.smsId = smsId;
         this.smsTitle = smsTitle;
         this.smsBody = smsBody;
+    }
+
+    public String getSmsId() {
+        return smsId;
+    }
+
+    public void setSmsId(String smsId) {
+        this.smsId = smsId;
     }
 
     public String getSmsTitle() {

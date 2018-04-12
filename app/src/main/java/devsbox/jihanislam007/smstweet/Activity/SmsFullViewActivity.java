@@ -1,11 +1,14 @@
 package devsbox.jihanislam007.smstweet.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Typeface;
+import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.HttpResponse;
+import devsbox.jihanislam007.smstweet.DB.OfflineInfo;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
@@ -37,17 +41,22 @@ public class SmsFullViewActivity extends AppCompatActivity {
             textBody;
     int selectedPosition=0;
 
+    ImageView FavaroitImageView;
+
     LinearLayout leftArrow;
     LinearLayout rightArrow;
     ArrayList<ProfileData> profileData;
     int selectedId=0;
     int currentPage=0;
     private boolean isLoading=false;
+    OfflineInfo offlineInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms_full_view);
+
+        offlineInfo=new OfflineInfo(this);
 
         title = findViewById(R.id.smsTitleTV);
         textBody = findViewById(R.id.smsBodyTV);
@@ -66,6 +75,23 @@ public class SmsFullViewActivity extends AppCompatActivity {
         copy.setTypeface(roboto);
 
         ///////////////////// xx //////////////////////
+
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String s=title.getText().toString()+"\n"+textBody.getText().toString();
+                setClipboard(SmsFullViewActivity.this,s);
+            }
+        });
+
+        FavaroitImageView = findViewById(R.id.FavaroitImageView);
+
+        FavaroitImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                likeSms();
+            }
+        });
 
 
         try {
@@ -109,6 +135,55 @@ public class SmsFullViewActivity extends AppCompatActivity {
         });
 
     }
+    private void setClipboard(Context context, String text) {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(text);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+            clipboard.setPrimaryClip(clip);
+        }
+        Toast.makeText(context, "Successfully copy..", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void likeSms() {
+
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization",offlineInfo.getUserInfo().token);
+        RequestParams params=new RequestParams();
+        client.get(ServerInfo.BASE_ADDRESS+"AddToLike?smsId="+profileData.get(selectedPosition).getSmsId(),params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                try {
+                    if(response.getBoolean("isLike")){
+                        Toast.makeText(SmsFullViewActivity.this, "Successfully like", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(SmsFullViewActivity.this, "Successfully unlike", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            /*****************Must write*****************************/
+            @Override
+            public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+                isLoading=false;
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(SmsFullViewActivity.this, "Check your connection", Toast.LENGTH_SHORT).show();
+
+            }
+            /***************************************/
+        });
+
+    }
+
     private void CategorySmsViewDataFromServer() {
 
         if(isLoading)
@@ -131,7 +206,7 @@ public class SmsFullViewActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        profileData.add(new ProfileData(jsonObject.getString("title"),jsonObject.getString("text")));
+                        profileData.add(new ProfileData(jsonObject.getInt("smsId")+"",jsonObject.getString("title"),jsonObject.getString("text")));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -157,5 +232,9 @@ public class SmsFullViewActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void smsFullViewBackIV(View view) {
+        finish();
     }
 }

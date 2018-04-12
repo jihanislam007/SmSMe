@@ -139,17 +139,18 @@ public class UploadSmsActivity extends AppCompatActivity {
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.popup_layout);
 
-     //   mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-
         DoneButton = mDialog.findViewById(R.id.DoneButton);
-        /*DoneButton.setOnClickListener(new View.OnClickListener() {
+        DoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
-        });*/
+        });
 
 
+    }
+
+    public void uploadsmsBackIV(View view) {
+        finish();
     }
 }

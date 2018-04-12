@@ -29,7 +29,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.HttpResponse;
+import de.hdodenhof.circleimageview.CircleImageView;
+import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsActivity;
 import devsbox.jihanislam007.smstweet.Adaptor.ProfileAdaptor;
+import devsbox.jihanislam007.smstweet.DB.OfflineInfo;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
@@ -39,8 +42,12 @@ public class ProfileActivity extends AppCompatActivity {
     TextView userName,
             textview_one,
             uploadSmsCount;
+
+    String selectedId="";
+
     ImageView back,
             settingPopUp;
+    CircleImageView SettingprofileImage;
     Dialog mDialog;
 
     EditText SettingUserNameTV,
@@ -52,10 +59,13 @@ public class ProfileActivity extends AppCompatActivity {
     ProfileAdaptor profileAdaptor;
     ArrayList<ProfileData> profileData = new ArrayList<>();
 
+    OfflineInfo offlineInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        offlineInfo=new OfflineInfo(this);
 
         userName = findViewById(R.id.UserNameTextView);
         textview_one = findViewById(R.id.textview_one);
@@ -91,8 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileAdaptor = new ProfileAdaptor(this, profileData);
         userSMSRecyclerView.setAdapter(profileAdaptor);
 
-        ProfileDataFromServer();
-
+        ProfileDataServer();
 
     }
 
@@ -104,15 +113,26 @@ public class ProfileActivity extends AppCompatActivity {
 
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
+        SettingprofileImage = mDialog.findViewById(R.id.SettingprofileImage);
         SettingUserNameTV =mDialog.findViewById(R.id.SettingUserNameTV);
         SettingPasswordTV = mDialog.findViewById(R.id.SettingPasswordTV);
         SettingConfirmePasswordTV = mDialog.findViewById(R.id.SettingConfirmePasswordTV);
         SettingDoneButton = mDialog.findViewById(R.id.SettingDoneButton);
 
+        SettingDoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SettingProfileUploadDataserver(selectedId,SettingUserNameTV.getText().toString(),SettingPasswordTV.getText().toString(),SettingConfirmePasswordTV.getText().toString());
+
+            }
+        });
+
 
     }
 
-    private void ProfileDataFromServer() {
+    private void SettingProfileUploadDataserver(String UserId,String user_name,String password ,String confirm_pass) {
+
         String tag_string_req = "req_login";
         ProgressDialog progressDialog = null;
         progressDialog = new ProgressDialog(this);
@@ -121,35 +141,37 @@ public class ProfileActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);
         progressDialog.show();
+
         final ProgressDialog finalProgressDialog = progressDialog;
 
-        /*************Must write*************************************/
         AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization",offlineInfo.getUserInfo().token);
+
+        RequestParams params=new RequestParams();
+        params.put("Email",offlineInfo.getUserInfo().user.email);
+        params.put("FullName",user_name);
+        params.put("OldPassword",password);
+        params.put("NewPassword",confirm_pass);
 
         final ProgressDialog finalProgressDialog1 = progressDialog;
-        RequestParams params=new RequestParams();
 
-        client.get(ServerInfo.BASE_ADDRESS+"UserUploadedList",params,new JsonHttpResponseHandler(){
+        client.post(ServerInfo.BASE_ADDRESS+"UpdateUser",params,new JsonHttpResponseHandler(){
             @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
 
-                for(int i=0; i<=response.length();i++){
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(i);
+                try {
 
-                        profileData.add(new ProfileData(jsonObject.getString("title"),jsonObject.getString("text")));
+                    Toast.makeText(ProfileActivity.this,"Upload successfully",Toast.LENGTH_LONG).show();
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    pop();
+                    mDialog.show();
 
-                    //   String
-
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                profileAdaptor.notifyDataSetChanged();
+
             }
 
-            /*****************Must write*****************************/
             @Override
             public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
                 finalProgressDialog1.dismiss();
@@ -157,34 +179,75 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(ProfileActivity.this, "Check your connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Data didn't uploaded "+responseString, Toast.LENGTH_SHORT).show();
 
             }
-            /***************************************/
-        });
 
+        });
 
     }
 
-    public void testLoadData() {
+    private void ProfileDataServer() {
 
-        ProfileData a = new ProfileData("sms one", "this is first sms. hope we have make fun from this app");
-        profileData.add(a);
+        String tag_string_req = "req_login";
+        ProgressDialog progressDialog = null;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
 
-        ProfileData b = new ProfileData("sms one", "this is first sms. hope we have make fun from this app");
-        profileData.add(b);
+        final ProgressDialog finalProgressDialog = progressDialog;
 
-        ProfileData c = new ProfileData("sms one", "this is first sms. hope we have make fun from this app");
-        profileData.add(c);
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.addHeader("Authorization",offlineInfo.getUserInfo().token);
 
-        ProfileData d = new ProfileData("sms one", "this is first sms. hope we have make fun from this app." +
-                "this is first sms. hope we have make fun from this app.this is first sms. " +
-                "hope we have make fun from this app.this is first sms. hope we have make fun from this app." +
-                "this is first sms. hope we have make fun from this app.this is first sms. " +
-                "hope we have make fun from this app");
-        profileData.add(d);
+        RequestParams params=new RequestParams();
 
-        ProfileData e = new ProfileData("sms one", "this is first sms. hope we have make fun from this app");
-        profileData.add(e);
+        final ProgressDialog finalProgressDialog1 = progressDialog;
+
+        client.get(ServerInfo.BASE_ADDRESS+"UserUploadedList",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+
+                for(int i=0;i<=response.length();i++){
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(i);
+                 //       profileData.add(new ProfileData(jsonObject.getString("title"),jsonObject.getString("text")));
+
+                        String user_name =jsonObject.getString("uploadedUserName");
+                        userName.setText(user_name);
+
+                        int smsCount =jsonObject.getInt("count");
+                        uploadSmsCount.setText(Integer.toString(smsCount));
+
+                        profileData.add(new ProfileData(jsonObject.getInt("smsId")+"",jsonObject.getString("title"),jsonObject.getString("text")));
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+                finalProgressDialog1.dismiss();
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(ProfileActivity.this, "Conection Error "+responseString, Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+    }
+
+    public void profileBackIV(View view) {
+        finish();
     }
 }

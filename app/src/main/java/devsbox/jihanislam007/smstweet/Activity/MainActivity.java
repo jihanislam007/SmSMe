@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.HttpResponse;
+import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsCatagorySelectorActivity;
 import devsbox.jihanislam007.smstweet.Adaptor.CategoryAdapter;
 import devsbox.jihanislam007.smstweet.Adaptor.SubCatSMS_viewAdapter;
 import devsbox.jihanislam007.smstweet.DB.OfflineInfo;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity
         offlineInfo=new OfflineInfo(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("বাংলা SMS");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         //////////////recyclerView load////////////////////////////
@@ -114,17 +117,27 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_bangla_sms) {
 
             CategoryDataserver("bangla");
+            setTitle("বাংলা SMS");
 
         } else if (id == R.id.nav_english_sms) {
 
             CategoryDataserver("english");
+            setTitle("English SMS");
 
         } else if (id == R.id.nav_banglish_sms) {
             CategoryDataserver("banglish");
+            setTitle("Banglish SMS");
 
         } else if (id == R.id.nav_favorite_sms) {
-            Intent in = new Intent(this,FavoriteSMSActivity.class);
-            startActivity(in);
+
+
+            if(offlineInfo.getUserInfo()!=null && offlineInfo.getUserInfo().token!=null && offlineInfo.getUserInfo().token.length()>0){
+                Intent intent=new Intent(this,FavoriteSMSActivity.class);
+                startActivity(intent);
+            }else{
+                Intent in = new Intent(this,LogInActivity.class);
+                startActivity(in);
+            }
 
         } else if (id == R.id.nav_More_Apps) {
             Intent in = new Intent(this,MainActivity.class);

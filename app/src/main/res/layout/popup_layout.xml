@@ -6,8 +6,8 @@
     android:gravity="center">
 
     <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="157dp">
+        android:layout_width="230dp"
+        android:layout_height="200dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,11 +21,11 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="190dp"
-                android:layout_height="96dp"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="16dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -57,7 +57,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Your SMS was Successfully Added"/>
+                                android:text="Your SMS was Successfully Added"
+                                android:layout_marginTop="8dp"/>
 
                         </LinearLayout>
 
@@ -71,21 +72,21 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/tick">
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="120dp"
-                android:layout_height="33dp"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/rectangular_shape_button">
+                    android:background="#00ffffff">
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/card_view_order"
@@ -93,15 +94,15 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:elevation="3dp"
-                        app:cardBackgroundColor="@color/colorLoginButton"
-                        app:cardElevation="5dp"
+                        app:cardBackgroundColor="@color/colorPrimary"
+                        app:cardElevation="3dp"
                         app:cardUseCompatPadding="true">
 
                         <Button
                             android:id="@+id/DoneButton"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/colorLoginButton"
+                            android:background="@drawable/rectangular_shape_button"
                             android:text="DONE"
                             android:textColor="@color/colorWhite"/>
 

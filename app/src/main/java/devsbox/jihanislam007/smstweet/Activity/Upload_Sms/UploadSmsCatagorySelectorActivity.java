@@ -203,5 +203,9 @@ public class UploadSmsCatagorySelectorActivity extends AppCompatActivity impleme
 
 
     }
+
+    public void uploadCategorySelectorBackIV(View view) {
+        finish();
+    }
 }
 

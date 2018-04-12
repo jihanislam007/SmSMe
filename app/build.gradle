@@ -34,4 +34,6 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.google.code.gson:gson:2.6.2'
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.zhihu.android:matisse:0.4.3'
+
 }
