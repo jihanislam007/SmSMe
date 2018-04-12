@@ -64,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
         confirmPassEditText = findViewById(R.id.confirmPasswordEditText);
 
         signUp = findViewById(R.id.logInButton);
-        //fbButton = findViewById(R.id.facebookButton);
+        fbButton = findViewById(R.id.login_fb_button);
         googleButton = findViewById(R.id.googleButton);
         tweeterButton = findViewById(R.id.tweeterButton);
 
@@ -80,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
         passwordEditText.setTypeface(roboto);
         confirmPassEditText.setTypeface(roboto);
         signUp.setTypeface(roboto);
-        //fbButton.setTypeface(roboto);
+      //  fbButton.setTypeface(roboto);
         googleButton.setTypeface(roboto);
         tweeterButton.setTypeface(roboto);
 
