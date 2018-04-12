@@ -152,8 +152,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(in);
 
         }else if (id == R.id.nav_setting) {
-            Intent in = new Intent(this,ProfileActivity.class);
-            startActivity(in);
+            if(offlineInfo.getUserInfo()!=null && offlineInfo.getUserInfo().token!=null && offlineInfo.getUserInfo().token.length()>0){
+                Intent in = new Intent(this,ProfileActivity.class);
+                startActivity(in);
+            }else{
+                Intent in = new Intent(this,LogInActivity.class);
+                startActivity(in);
+            }
+
 
         }
 

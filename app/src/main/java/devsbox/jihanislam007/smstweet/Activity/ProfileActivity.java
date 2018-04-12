@@ -1,10 +1,20 @@
 package devsbox.jihanislam007.smstweet.Activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,16 +27,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.ResponseHandlerInterface;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.filter.Filter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.HttpResponse;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -60,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
     ArrayList<ProfileData> profileData = new ArrayList<>();
 
     OfflineInfo offlineInfo;
+    File selectedFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +122,66 @@ public class ProfileActivity extends AppCompatActivity {
 
         ProfileDataServer();
 
+
+
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            List<Uri> results = Matisse.obtainResult(data);
+            if(results.size()>0){
+                selectedFile=new File(getPath(results.get(0)));
+                Glide
+                        .with(this)
+                        .load(selectedFile)
+                        .into(SettingprofileImage);
+                System.out.println(selectedFile);
+
+            }
+
+        }
+    }
+
+    public String getPath(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index =             cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String s=cursor.getString(column_index);
+        cursor.close();
+        return s;
+    }
+
+    public void checkPermission(){
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( this, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission( this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+            }
+            return;
+        }
+
+        Matisse.from(this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(9)
+                /*.addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))*/
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(2);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public void pop() {
@@ -125,6 +204,13 @@ public class ProfileActivity extends AppCompatActivity {
 
                 SettingProfileUploadDataserver(selectedId,SettingUserNameTV.getText().toString(),SettingPasswordTV.getText().toString(),SettingConfirmePasswordTV.getText().toString());
 
+            }
+        });
+
+        SettingprofileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkPermission();
             }
         });
 
@@ -152,6 +238,14 @@ public class ProfileActivity extends AppCompatActivity {
         params.put("FullName",user_name);
         params.put("OldPassword",password);
         params.put("NewPassword",confirm_pass);
+
+        if(selectedFile!=null){
+            try {
+                params.put("UserImage",selectedFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         final ProgressDialog finalProgressDialog1 = progressDialog;
 
@@ -211,10 +305,10 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
 
-                for(int i=0;i<=response.length();i++){
+                for(int i=0;i<response.length();i++){
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
-                 //       profileData.add(new ProfileData(jsonObject.getString("title"),jsonObject.getString("text")));
+                        //       profileData.add(new ProfileData(jsonObject.getString("title"),jsonObject.getString("text")));
 
                         String user_name =jsonObject.getString("uploadedUserName");
                         userName.setText(user_name);
@@ -240,6 +334,28 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Toast.makeText(ProfileActivity.this, "Conection Error "+responseString, Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+
+        client.get(ServerInfo.BASE_ADDRESS+"GetUserInfo?userId="+offlineInfo.getUserInfo().user.id,params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+
+                System.out.println(response);
+
+            }
+
+            @Override
+            public void onPostProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+
 
             }
 

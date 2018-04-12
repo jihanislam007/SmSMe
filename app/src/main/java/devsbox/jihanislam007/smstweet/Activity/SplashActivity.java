@@ -5,8 +5,11 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.Random;
 
@@ -20,12 +23,17 @@ public class SplashActivity extends AppCompatActivity {
     private int mProgressStatus = 0;
 
     private Handler mHandler = new Handler();
+    ImageView backgroundImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        backgroundImageView=findViewById(R.id.backgroundImageView);
+        Glide
+                .with(this)
+                .load(R.drawable.icon)
+                .into(backgroundImageView);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         new Thread(new Runnable() {

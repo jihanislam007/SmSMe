@@ -80,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
         passwordEditText.setTypeface(roboto);
         confirmPassEditText.setTypeface(roboto);
         signUp.setTypeface(roboto);
-//        fbButton.setTypeface(roboto);
+        //fbButton.setTypeface(roboto);
         googleButton.setTypeface(roboto);
         tweeterButton.setTypeface(roboto);
 
