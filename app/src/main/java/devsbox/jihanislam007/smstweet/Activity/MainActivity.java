@@ -1,12 +1,14 @@
 package devsbox.jihanislam007.smstweet.Activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -41,14 +46,18 @@ public class MainActivity extends AppCompatActivity
     RecyclerView recyclerView;
     SubCatSMS_viewAdapter SubCatSMS_viewAdapter;
     ArrayList<CategoryList> categoryList = new ArrayList<>();
-
+    private InterstitialAd mInterstitialAd;
     OfflineInfo offlineInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        offlineInfo=new OfflineInfo(this);
+        ////////////////for interstitialAd//////////////
+        AddInterstitial();
+
+        offlineInfo = new OfflineInfo(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("বাংলা SMS");
@@ -57,11 +66,11 @@ public class MainActivity extends AppCompatActivity
 
         //////////////recyclerView load////////////////////////////
         recyclerView = findViewById(R.id.categoryRecyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        SubCatSMS_viewAdapter = new SubCatSMS_viewAdapter(this,categoryList);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        SubCatSMS_viewAdapter = new SubCatSMS_viewAdapter(this, categoryList);
         recyclerView.setAdapter(SubCatSMS_viewAdapter);
 
-    //    testingLoadData();
+        //    testingLoadData();
         CategoryDataserver("bangla");
 
         //////////////recyclerView load////////////////////////////
@@ -83,6 +92,9 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            // Toast.makeText(this, "you finished now", Toast.LENGTH_SHORT).show();
+            ////////////////for interstitialAd//////////////
+            AddInterstitial();
         }
     }
 
@@ -131,32 +143,32 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_favorite_sms) {
 
 
-            if(offlineInfo.getUserInfo()!=null && offlineInfo.getUserInfo().token!=null && offlineInfo.getUserInfo().token.length()>0){
-                Intent intent=new Intent(this,FavoriteSMSActivity.class);
+            if (offlineInfo.getUserInfo() != null && offlineInfo.getUserInfo().token != null && offlineInfo.getUserInfo().token.length() > 0) {
+                Intent intent = new Intent(this, FavoriteSMSActivity.class);
                 startActivity(intent);
-            }else{
-                Intent in = new Intent(this,LogInActivity.class);
+            } else {
+                Intent in = new Intent(this, LogInActivity.class);
                 startActivity(in);
             }
 
         } else if (id == R.id.nav_More_Apps) {
-            Intent in = new Intent(this,MainActivity.class);
+            Intent in = new Intent(this, MainActivity.class);
             startActivity(in);
 
         } else if (id == R.id.nav_rating) {
-            Intent in = new Intent(this,MainActivity.class);
+            Intent in = new Intent(this, MainActivity.class);
             startActivity(in);
 
-        }else if (id == R.id.nav_upload) {
-            Intent in = new Intent(this,LogInActivity.class);
+        } else if (id == R.id.nav_upload) {
+            Intent in = new Intent(this, LogInActivity.class);
             startActivity(in);
 
-        }else if (id == R.id.nav_setting) {
-            if(offlineInfo.getUserInfo()!=null && offlineInfo.getUserInfo().token!=null && offlineInfo.getUserInfo().token.length()>0){
-                Intent in = new Intent(this,ProfileActivity.class);
+        } else if (id == R.id.nav_setting) {
+            if (offlineInfo.getUserInfo() != null && offlineInfo.getUserInfo().token != null && offlineInfo.getUserInfo().token.length() > 0) {
+                Intent in = new Intent(this, ProfileActivity.class);
                 startActivity(in);
-            }else{
-                Intent in = new Intent(this,LogInActivity.class);
+            } else {
+                Intent in = new Intent(this, LogInActivity.class);
                 startActivity(in);
             }
 
@@ -181,19 +193,17 @@ public class MainActivity extends AppCompatActivity
 
         final ProgressDialog finalProgressDialog = progressDialog;
 
-        AsyncHttpClient client=new AsyncHttpClient();
+        AsyncHttpClient client = new AsyncHttpClient();
         //client.addHeader("Authorization","Bearer "+offlineInfo.getUserInfo().token);
 
-        RequestParams params=new RequestParams();
-
+        RequestParams params = new RequestParams();
         final ProgressDialog finalProgressDialog1 = progressDialog;
-
-        client.get(ServerInfo.BASE_ADDRESS+"SubCategoryList?categoryName="+category,params,new JsonHttpResponseHandler(){
+        client.get(ServerInfo.BASE_ADDRESS + "SubCategoryList?categoryName=" + category, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                 categoryList.clear();
                 SubCatSMS_viewAdapter.notifyDataSetChanged();
-                for(int i=0;i<response.length();i++){
+                for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
 
@@ -204,14 +214,15 @@ public class MainActivity extends AppCompatActivity
                         int subCategoryId = jsonObject.getInt("subCategoryId");
                         String photo = jsonObject.getString("photo");
 
-                        CategoryList category_data = new CategoryList(subCategoryName,photo,subCategoryId);
+                        CategoryList category_data = new CategoryList(subCategoryName, photo, subCategoryId);
 
                         categoryList.add(category_data);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }SubCatSMS_viewAdapter.notifyDataSetChanged();
+                }
+                SubCatSMS_viewAdapter.notifyDataSetChanged();
 
 
             }
@@ -229,9 +240,40 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-
     }
 
+    /////////////////working for add///////////////////////////////////////////
+    public void AddInterstitial() {
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-1309629775280161/9473255533");
+        AdRequest adR = new AdRequest.Builder()
+
+                // Add a test device to show Test Ads
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("947B975E60AF133A105A2C362E253C35") //Random Text
+                .build();
+
+
+        mInterstitialAd.loadAd(adR);
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                displayInterstitial();
+            }
+        });
+        /////////////////finish add///////////////////////////////////////////////*/
+    }
+
+    public void displayInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+    }
+    /////////////////////also working for add//////////////////////////
+
+
+    /////////////////////also working for add//////////////////////////
     /*public void testingLoadData(){
 
         CategoryList a = new CategoryList("LOVE SMS","",0);
@@ -260,4 +302,6 @@ public class MainActivity extends AppCompatActivity
         CategoryList h = new CategoryList("Night SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_night.png",1);
         categoryList.add(h);
     }*/
+
+
 }

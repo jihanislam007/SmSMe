@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -47,6 +49,9 @@ public class FavoriteSMSActivity extends AppCompatActivity implements GoFullScre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_sms);
+
+        /////////////////Banner Add/////////////////
+        BannerAdd();
 
         recyclerView = findViewById(R.id.FavouriteSMS);
         offlineInfo=new OfflineInfo(this);
@@ -141,5 +146,21 @@ public class FavoriteSMSActivity extends AppCompatActivity implements GoFullScre
         intent.putExtra("selectedId",selectedId);
         intent.putExtra("currentPage",currentPage);
         startActivity(intent);
+    }
+
+    public void BannerAdd(){
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        // Request for Ads
+        AdRequest adRequest1 = new AdRequest.Builder()
+
+                // Add a test device to show Test Ads
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("947B975E60AF133A105A2C362E253C35") //Random Text
+                .build();
+
+        mAdView.loadAd(adRequest1);
     }
 }

@@ -2,10 +2,15 @@ package devsbox.jihanislam007.smstweet.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.provider.Telephony;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ShareActionProvider;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -41,7 +48,8 @@ public class SmsFullViewActivity extends AppCompatActivity {
             textBody;
     int selectedPosition=0;
 
-    ImageView FavaroitImageView;
+    ImageView FavaroitImageView,
+                ShareImageView;
 
     LinearLayout leftArrow;
     LinearLayout rightArrow;
@@ -56,6 +64,9 @@ public class SmsFullViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms_full_view);
 
+        /////////////////Banner Add/////////////////
+        BannerAdd();
+
         offlineInfo=new OfflineInfo(this);
 
         title = findViewById(R.id.smsTitleTV);
@@ -63,6 +74,7 @@ public class SmsFullViewActivity extends AppCompatActivity {
         copy = findViewById(R.id.uploadNowButton);
         leftArrow=findViewById(R.id.leftArrow);
         rightArrow=findViewById(R.id.rightArrow);
+        ShareImageView = findViewById(R.id.ShareImageView);
 
         /////////// Font path ////////////////////
 
@@ -75,6 +87,21 @@ public class SmsFullViewActivity extends AppCompatActivity {
         copy.setTypeface(roboto);
 
         ///////////////////// xx //////////////////////
+        ShareImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String shareTitle=title.getText().toString();
+                String shareBody =textBody.getText().toString();
+
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareTitle);
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+            }
+        });
+
 
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +162,8 @@ public class SmsFullViewActivity extends AppCompatActivity {
         });
 
     }
+
+
     private void setClipboard(Context context, String text) {
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
             android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -146,7 +175,6 @@ public class SmsFullViewActivity extends AppCompatActivity {
         }
         Toast.makeText(context, "Successfully copy..", Toast.LENGTH_SHORT).show();
     }
-
 
     private void likeSms() {
 
@@ -237,4 +265,21 @@ public class SmsFullViewActivity extends AppCompatActivity {
     public void smsFullViewBackIV(View view) {
         finish();
     }
+
+    public void BannerAdd(){
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        // Request for Ads
+        AdRequest adRequest1 = new AdRequest.Builder()
+
+                // Add a test device to show Test Ads
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("947B975E60AF133A105A2C362E253C35") //Random Text
+                .build();
+
+        mAdView.loadAd(adRequest1);
+    }
+
 }

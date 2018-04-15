@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -44,6 +46,8 @@ public class CategorySmsViewActivity extends AppCompatActivity implements GoFull
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catagory_view);
 
+        /////////////////Banner Add/////////////////
+        BannerAdd();
 
         recyclerView = findViewById(R.id.CategorySmsView);
 
@@ -150,7 +154,23 @@ public class CategorySmsViewActivity extends AppCompatActivity implements GoFull
         startActivity(intent);
     }
 
-    public void categoryViewBackIV(View view) {
+    public void favoriteBackIV(View view) {
         finish();
+    }
+
+    public void BannerAdd(){
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        // Request for Ads
+        AdRequest adRequest1 = new AdRequest.Builder()
+
+                // Add a test device to show Test Ads
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("947B975E60AF133A105A2C362E253C35") //Random Text
+                .build();
+
+        mAdView.loadAd(adRequest1);
     }
 }

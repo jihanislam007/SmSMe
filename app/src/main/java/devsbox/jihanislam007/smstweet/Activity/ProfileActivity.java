@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -91,6 +93,10 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        /////////////////Banner Add/////////////////
+        BannerAdd();
+
         offlineInfo=new OfflineInfo(this);
 
         userName = findViewById(R.id.UserNameTextView);
@@ -404,5 +410,21 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
         intent.putExtra("selectedId",selectId);
         intent.putExtra("currentPage",currentPage);
         startActivity(intent);
+    }
+
+    public void BannerAdd(){
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        // Request for Ads
+        AdRequest adRequest1 = new AdRequest.Builder()
+
+                // Add a test device to show Test Ads
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("947B975E60AF133A105A2C362E253C35") //Random Text
+                .build();
+
+        mAdView.loadAd(adRequest1);
     }
 }
