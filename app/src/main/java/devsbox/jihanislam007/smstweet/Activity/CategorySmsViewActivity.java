@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -46,7 +48,7 @@ public class CategorySmsViewActivity extends AppCompatActivity implements GoFull
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catagory_view);
 
-        /////////////////Banner Add/////////////////
+        /////////////////ToDo :Banner Add/////////////////
         BannerAdd();
 
         recyclerView = findViewById(R.id.CategorySmsView);
@@ -57,10 +59,16 @@ public class CategorySmsViewActivity extends AppCompatActivity implements GoFull
         profileAdaptor = new ProfileAdaptor(this,profileData);
         recyclerView.setAdapter(profileAdaptor);
 
-        //testLoadData();
+        //////////////ToDo :for animation////////////
+        LayoutAnimationController controller = null;
+        controller = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down);
+
+        recyclerView.setLayoutAnimation(controller);
+        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+        //////////////for animation////////////
 
         selectedId=getIntent().getIntExtra("id",0);
-
         //loading recyclerView//
         CategorySmsViewDataFromServer();
 

@@ -1,8 +1,10 @@
 package devsbox.jihanislam007.smstweet.Activity;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +17,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
@@ -69,6 +73,14 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         SubCatSMS_viewAdapter = new SubCatSMS_viewAdapter(this, categoryList);
         recyclerView.setAdapter(SubCatSMS_viewAdapter);
+
+
+        LayoutAnimationController controller = null;
+        controller = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down);
+
+        recyclerView.setLayoutAnimation(controller);
+        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
 
         //    testingLoadData();
         CategoryDataserver("bangla");
@@ -152,12 +164,16 @@ public class MainActivity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_More_Apps) {
-            Intent in = new Intent(this, MainActivity.class);
-            startActivity(in);
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
 
         } else if (id == R.id.nav_rating) {
-            Intent in = new Intent(this, MainActivity.class);
-            startActivity(in);
+            RateUsMarket();
+            Toast.makeText(this,getPackageName(), Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_upload) {
             Intent in = new Intent(this, LogInActivity.class);
@@ -178,6 +194,16 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void RateUsMarket() {
+        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(myAppLinkToMarket);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, " unable to find market app", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void CategoryDataserver(String category) {

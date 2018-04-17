@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 
 import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsActivity;
+import devsbox.jihanislam007.smstweet.Animation.AnimationUtil;
 import devsbox.jihanislam007.smstweet.ModelClass.CategoryList;
 import devsbox.jihanislam007.smstweet.R;
 import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
@@ -62,6 +63,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.myView
                 view.getContext().startActivity(new Intent(mcontext, UploadSmsActivity.class).putExtra("id",categoryList.get(position).categoryId));
             }
         });
+
+        /*///////////for animation///////////////
+        int previousPosition =0;
+        if(position>previousPosition){
+
+            AnimationUtil.animate(holder,true);
+        }else {
+            AnimationUtil.animate(holder,true);
+        }
+
+        previousPosition = position;*/
     }
 
     @Override

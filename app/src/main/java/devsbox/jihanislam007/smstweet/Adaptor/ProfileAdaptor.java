@@ -29,6 +29,7 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
 
     Context mcontext;
     ArrayList<ProfileData> profileData;
+    int previousPosition = 0;
 
     public ProfileAdaptor(Context context, ArrayList<ProfileData> profileData) {
         this.mcontext = context;
@@ -48,7 +49,14 @@ public class ProfileAdaptor extends RecyclerView.Adapter<ProfileAdaptor.ViewHold
         holder.SmsTitleTextView.setText(profileData.get(position).getSmsTitle());
         holder.SmsBodyTextView.setText(profileData.get(position).getSmsBody());
 
+        /*if(position>previousPosition){
 
+            AnimationUtil.animate(holder,true);
+        }else {
+            AnimationUtil.animate(holder,true);
+        }
+
+        previousPosition = position;*/
 
      /*   holder.container.setOnClickListener(new View.OnClickListener() {
             @Override

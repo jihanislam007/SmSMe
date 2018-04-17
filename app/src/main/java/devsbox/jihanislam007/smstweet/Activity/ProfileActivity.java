@@ -21,6 +21,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -135,6 +137,15 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
         userSMSRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         profileAdaptor = new ProfileAdaptor(this, profileData);
         userSMSRecyclerView.setAdapter(profileAdaptor);
+
+        //////////////for animation////////////
+        LayoutAnimationController controller = null;
+        controller = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down);
+
+        userSMSRecyclerView.setLayoutAnimation(controller);
+        userSMSRecyclerView.getAdapter().notifyDataSetChanged();
+        userSMSRecyclerView.scheduleLayoutAnimation();
+        //////////////for animation////////////
 
         ProfileDataServer();
 

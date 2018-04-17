@@ -6,14 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -34,7 +31,7 @@ import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
 
-public class FavoriteSMSActivity extends AppCompatActivity implements GoFullScreen{
+public class TestingActivity extends AppCompatActivity implements GoFullScreen{
 
     RecyclerView recyclerView;
     ProfileAdaptor profileAdaptor;
@@ -50,12 +47,9 @@ public class FavoriteSMSActivity extends AppCompatActivity implements GoFullScre
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_sms);
+        setContentView(R.layout.activity_testing);
 
-        /////////////////ToDo :Banner Add/////////////////
-        BannerAdd();
-
-        recyclerView = findViewById(R.id.FavouriteSMS);
+        recyclerView = findViewById(R.id.Favourite);
         offlineInfo=new OfflineInfo(this);
         //loading recyclerView//
 
@@ -74,11 +68,11 @@ public class FavoriteSMSActivity extends AppCompatActivity implements GoFullScre
 
         //////////////for animation////////////
 
-        FavoriteDataFromServer();
-
+        testingLoadData();
+    //    CategorySmsViewDataFromServer();
     }
 
-    private void FavoriteDataFromServer() {
+    private void CategorySmsViewDataFromServer() {
 
         if(isLoading)
             return;
@@ -100,12 +94,10 @@ public class FavoriteSMSActivity extends AppCompatActivity implements GoFullScre
         /*************Must write*************************************/
         AsyncHttpClient client=new AsyncHttpClient();
 
-        client.addHeader("Authorization",offlineInfo.getUserInfo().token);
-
         final ProgressDialog finalProgressDialog1 = progressDialog;
         RequestParams params=new RequestParams();
 
-        client.get(ServerInfo.BASE_ADDRESS+"UserFavouriteList",params,new JsonHttpResponseHandler(){
+        client.get(ServerInfo.BASE_ADDRESS+"GetAllSmsInList?subCategoryId="+selectedId+"&page="+currentPage,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                 currentPage++;
@@ -135,17 +127,13 @@ public class FavoriteSMSActivity extends AppCompatActivity implements GoFullScre
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(FavoriteSMSActivity.this, "Check your connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestingActivity.this, "Check your connection", Toast.LENGTH_SHORT).show();
 
             }
             /***************************************/
         });
 
 
-    }
-
-    public void favoriteBackIV(View view) {
-        finish();
     }
 
     @Override
@@ -160,19 +148,32 @@ public class FavoriteSMSActivity extends AppCompatActivity implements GoFullScre
         startActivity(intent);
     }
 
-    public void BannerAdd(){
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+    public void testingLoadData(){
 
-        // Request for Ads
-        AdRequest adRequest1 = new AdRequest.Builder()
+        ProfileData a = new ProfileData("0","hello"," hello body");
+        profileData.add(a);
 
-                // Add a test device to show Test Ads
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("947B975E60AF133A105A2C362E253C35") //Random Text
-                .build();
+        ProfileData b = new ProfileData("1","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_friendship.png","");
+        profileData.add(b);
 
-        mAdView.loadAd(adRequest1);
+
+        ProfileData c = new ProfileData("Funny SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_funny.png","");
+        profileData.add(c);
+
+
+        ProfileData d = new ProfileData("Birthday SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_birthday.png","");
+        profileData.add(d);
+
+        ProfileData e = new ProfileData("New Year SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_new_year.png","");
+        profileData.add(e);
+
+        ProfileData f = new ProfileData("Eid SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_eid.png","");
+        profileData.add(f);
+
+        ProfileData g = new ProfileData("Morning SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_morning.png","");
+        profileData.add(g);
+
+        ProfileData h = new ProfileData("Night SMS","https://github.com/jihanislam007/SmSTweet/blob/master/app/src/main/res/drawable/delete_night.png","");
+        profileData.add(h);
     }
 }
