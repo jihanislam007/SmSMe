@@ -68,6 +68,7 @@ public class LogInActivity extends AppCompatActivity {
         if(offlineInfo.getUserInfo()!=null && offlineInfo.getUserInfo().token!=null && offlineInfo.getUserInfo().token.length()>0){
             Intent intent=new Intent(LogInActivity.this,UploadSmsCatagorySelectorActivity.class);
             startActivity(intent);
+            finish();
         }
 
         logIn.setOnClickListener(new View.OnClickListener() {
@@ -131,9 +132,9 @@ public class LogInActivity extends AppCompatActivity {
                     if(response.getBoolean("result")){
                         Toast.makeText(LogInActivity.this,"Login successful", Toast.LENGTH_LONG).show();
                         startActivity(intent);
-                    finish();
+                        finish();
                     }
-                        else {Toast.makeText(LogInActivity.this, "User name or password invalid....", Toast.LENGTH_SHORT).show();
+                    else {Toast.makeText(LogInActivity.this, "User name or password invalid....", Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (JSONException e) {

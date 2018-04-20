@@ -17,10 +17,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -36,6 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.HttpResponse;
+import de.hdodenhof.circleimageview.CircleImageView;
 import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsCatagorySelectorActivity;
 import devsbox.jihanislam007.smstweet.Adaptor.CategoryAdapter;
 import devsbox.jihanislam007.smstweet.Adaptor.SubCatSMS_viewAdapter;
@@ -52,6 +57,8 @@ public class MainActivity extends AppCompatActivity
     ArrayList<CategoryList> categoryList = new ArrayList<>();
     private InterstitialAd mInterstitialAd;
     OfflineInfo offlineInfo;
+    TextView titleBar;
+    CircleImageView headerProfileImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +71,9 @@ public class MainActivity extends AppCompatActivity
         offlineInfo = new OfflineInfo(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("বাংলা SMS");
+        titleBar=toolbar.findViewById(R.id.toolbar_title);
+
+        titleBar.setText("বাংলা SMS");
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -95,6 +104,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View hView =  navigationView.getHeaderView(0);
+        headerProfileImageView=hView.findViewById(R.id.profile_image);
+        Glide
+                .with(this)
+                .load(ServerInfo.MEDIA_ADDRESS+offlineInfo.getUserInfo().user.profilePhoto)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(headerProfileImageView);
     }
 
     @Override
@@ -141,16 +157,16 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_bangla_sms) {
 
             CategoryDataserver("bangla");
-            setTitle("বাংলা SMS");
+            titleBar.setText("বাংলা SMS");
 
         } else if (id == R.id.nav_english_sms) {
 
             CategoryDataserver("english");
-            setTitle("English SMS");
+            titleBar.setText("English SMS");
 
         } else if (id == R.id.nav_banglish_sms) {
             CategoryDataserver("banglish");
-            setTitle("Banglish SMS");
+            titleBar.setText("Banglish SMS");
 
         } else if (id == R.id.nav_favorite_sms) {
 

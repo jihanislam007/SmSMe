@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -31,6 +34,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
@@ -58,6 +63,7 @@ import devsbox.jihanislam007.smstweet.Activity.Upload_Sms.UploadSmsActivity;
 import devsbox.jihanislam007.smstweet.Adaptor.ProfileAdaptor;
 import devsbox.jihanislam007.smstweet.DB.OfflineInfo;
 import devsbox.jihanislam007.smstweet.Interface.GoFullScreen;
+import devsbox.jihanislam007.smstweet.ModelClass.AppUser;
 import devsbox.jihanislam007.smstweet.ModelClass.ProfileData;
 import devsbox.jihanislam007.smstweet.R;
 import devsbox.jihanislam007.smstweet.Server_info.ServerInfo;
@@ -76,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
             coverImageView,
             settingPopUp;
     CircleImageView profile_image,
-                    SettingprofileImage;
+            SettingprofileImage;
     Dialog mDialog;
 
     EditText SettingUserNameTV,
@@ -281,7 +287,9 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
                     Toast.makeText(ProfileActivity.this,"Upload successfully",Toast.LENGTH_LONG).show();
 
                     pop();
-                    mDialog.show();
+                    //mDialog.show();
+
+                    ProfileDataServer();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -327,8 +335,11 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
         client.get(ServerInfo.BASE_ADDRESS+"UserUploadedList",params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
-            //    currentPage++;
-             //   isLoading=false;
+                //    currentPage++;
+                //   isLoading=false;
+                profileData.clear();
+                profileAdaptor.notifyDataSetChanged();
+
                 for(int i=0; i<response.length();i++){
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
@@ -338,8 +349,6 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                 }
                 profileAdaptor.notifyDataSetChanged();
             }
@@ -361,12 +370,45 @@ public class ProfileActivity extends AppCompatActivity implements GoFullScreen {
         client.get(ServerInfo.BASE_ADDRESS+"GetUserInfo?userId="+offlineInfo.getUserInfo().user.id,params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                System.out.println(response);
 
                 try {
                     JSONObject jsonObject = response.getJSONObject("user");
 
                     String user_name =jsonObject.getString("fullName");
                     userName.setText(user_name);
+                    String profilePhoto=jsonObject.getString("profilePhoto");
+
+                   AppUser appUser= offlineInfo.getUserInfo();
+                   appUser.user.fullName=user_name;
+                   appUser.user.profilePhoto=profilePhoto;
+
+                   Gson gson=new Gson();
+                   String userSerializeData=gson.toJson(appUser);
+                   offlineInfo.setUserInfo(userSerializeData);
+
+                    Glide
+                            .with(ProfileActivity.this)
+                            .load(ServerInfo.MEDIA_ADDRESS+jsonObject.getString("profilePhoto"))
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(profile_image);
+
+                    Glide
+                            .with(getApplicationContext())
+                            .load(ServerInfo.MEDIA_ADDRESS+jsonObject.getString("profilePhoto"))
+                            .asBitmap()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(new SimpleTarget<Bitmap>(coverImageView.getMeasuredWidth(),coverImageView.getMeasuredHeight()) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                    System.out.println("DOwnload successfully");
+                                    Drawable drawable = new BitmapDrawable(resource);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                        coverImageView.setBackground(drawable);
+                                    }
+
+                                }
+                            });
 
                     /*Glide
                             .with(ProfileActivity.this)

@@ -80,6 +80,15 @@ public class UploadSmsActivity extends AppCompatActivity {
 
     private void uploadSmsDataserver(String SubCategoryId,String Title,String Text) {
 
+        if(Title.length()==0){
+            Toast.makeText(this, "Title can not be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(Text.length()==0){
+            Toast.makeText(this, "Text can not be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String tag_string_req = "req_login";
         ProgressDialog progressDialog = null;
         progressDialog = new ProgressDialog(this);
