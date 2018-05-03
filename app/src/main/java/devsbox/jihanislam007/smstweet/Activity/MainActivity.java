@@ -106,11 +106,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View hView =  navigationView.getHeaderView(0);
         headerProfileImageView=hView.findViewById(R.id.profile_image);
-        Glide
-                .with(this)
-                .load(ServerInfo.MEDIA_ADDRESS+offlineInfo.getUserInfo().user.profilePhoto)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(headerProfileImageView);
+
+        //Auto login if previously login
+        if(offlineInfo.getUserInfo()!=null && offlineInfo.getUserInfo().token!=null && offlineInfo.getUserInfo().token.length()>0){
+            Glide
+                    .with(this)
+                    .load(ServerInfo.MEDIA_ADDRESS+offlineInfo.getUserInfo().user.profilePhoto)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(headerProfileImageView);
+        }
+
+
     }
 
     @Override

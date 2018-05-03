@@ -26,4 +26,8 @@
     <!--my testing add ID-->
     <string name="banner_ad_unit_id">ca-app-pub-1309629775280161/5182656731</string>
 
+
+    <string name="com.twitter.sdk.android.CONSUMER_KEY" translatable="false">gBuvQzGZBF7tLwDhb3FhyfWkx</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET" translatable="false">9vCr37jMtROOEKmWz5RJMBlMxdpsm3IGniyheIS00quFfGNq4D</string>
+
 </resources>
