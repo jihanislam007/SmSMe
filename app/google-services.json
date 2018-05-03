@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1004874031316",
+    "firebase_url": "https://smsme-4cabf.firebaseio.com",
+    "project_id": "smsme-4cabf",
+    "storage_bucket": "smsme-4cabf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004874031316:android:dc4af9819e01b7bd",
+        "android_client_info": {
+          "package_name": "mistri.solutions.smsme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1004874031316-odii9kjv5ghofb7k808keghu8dfnodjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhIX1PfHt0-2JIWqCiT1ol7Ccmuo-md7g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
