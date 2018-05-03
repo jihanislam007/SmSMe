@@ -20,11 +20,9 @@
         This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
         For more information, see https://support.google.com/admob/answer/3052638
     <!- -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-8227935320577191/1600910108</string>
-   <!-- <string name="banner_ad_unit_id">ca-app-pub-8227935320577191/4683558380</string>-->
 
     <!--my testing add ID-->
-    <string name="banner_ad_unit_id">ca-app-pub-1309629775280161/5182656731</string>
+    <string name="banner_ad_unit_id">ca-app-pub-8227935320577191/4683558380</string>
 
 
     <string name="com.twitter.sdk.android.CONSUMER_KEY" translatable="false">gBuvQzGZBF7tLwDhb3FhyfWkx</string>

@@ -87,9 +87,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:elevation="3dp"
+                    android:elevation="5dp"
                     app:cardBackgroundColor="@android:color/white"
-                    app:cardElevation="1dp"
+                    app:cardElevation="2dp"
                     app:cardUseCompatPadding="true">
 
                     <RelativeLayout

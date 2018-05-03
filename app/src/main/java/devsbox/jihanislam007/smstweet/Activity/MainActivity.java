@@ -28,6 +28,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         ////////////////for interstitialAd//////////////
+        MobileAds.initialize(this,"ca-app-pub-8227935320577191~4612364056");
         AddInterstitial();
 
         offlineInfo = new OfflineInfo(this);
@@ -294,7 +296,7 @@ public class MainActivity extends AppCompatActivity
     public void AddInterstitial() {
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-1309629775280161/9473255533");
+        mInterstitialAd.setAdUnitId("ca-app-pub-8227935320577191/1600910108");
         AdRequest adR = new AdRequest.Builder()
 
                 // Add a test device to show Test Ads
