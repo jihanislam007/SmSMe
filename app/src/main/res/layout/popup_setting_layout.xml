@@ -150,7 +150,7 @@
                                         android:id="@+id/SettingConfirmePasswordTV"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:hint="Confirm Password"
+                                        android:hint="Old Password"
                                         />
 
                                 </LinearLayout>
